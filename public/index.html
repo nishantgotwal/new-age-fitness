@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>New Age Fitness — Train Smarter, Together</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #24262A;
+    --bg-alt: #1D1F22;
+    --panel: #2C2E32;
+    --ink: #F4EFE3;
+    --ink-soft: #C9C0A8;
+    --muted: #B5A06B;
+    --gold: #D4AF37;
+    --gold-bright: #F1CD6B;
+    --gold-deep: #9C7A1F;
+    --line: #45484D;
+    --white: #FFFDF8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Work Sans', sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.5;
+    overflow-x:hidden;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  h1,h2,h3,.headline{
+    font-family:'Archivo Black', sans-serif;
+    font-weight:400;
+    line-height:1.08;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:14px 26px;
+    border-radius:6px;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+    border:2px solid transparent;
+    transition:transform .15s ease, background .2s ease, opacity .2s ease;
+    min-height:48px;
+  }
+  .btn:active{transform:scale(0.97);}
+  .btn-gold{background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));color:#1A1509;}
+  .btn-gold:hover{opacity:0.9;}
+  .btn-outline{background:transparent;border-color:var(--gold);color:var(--gold);}
+  .btn-outline:hover{background:var(--gold);color:#1A1509;}
+  .btn-dark{background:var(--panel);color:var(--ink);border-color:var(--line);}
+  .btn-dark:hover{border-color:var(--gold);}
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:sticky;top:0;z-index:100;
+    background:rgba(36,38,42,0.94);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;max-width:1180px;margin:0 auto;}
+  .logo{font-family:'Archivo Black';font-size:19px;display:flex;align-items:center;gap:8px;color:var(--white);}
+  .logo span{color:var(--gold);}
+  .nav-links{display:flex;gap:30px;font-weight:600;font-size:15px;}
+  .nav-links a{position:relative;padding:4px 0;color:var(--ink-soft);}
+  .nav-links a:after{content:'';position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--gold);transition:width .2s;}
+  .nav-links a:hover:after{width:100%;}
+  .nav-links a:hover{color:var(--ink);}
+  .nav-cta{display:flex;gap:12px;align-items:center;}
+  .burger{display:none;font-size:24px;background:none;border:none;cursor:pointer;color:var(--gold);min-width:44px;min-height:44px;}
+
+  @media(max-width:860px){
+    .nav-links{display:none;}
+    .burger{display:block;}
+    .nav-cta .btn-outline{display:none;}
+  }
+
+  /* ---------- MOBILE SLIDE-IN MENU ---------- */
+  .mobile-menu-backdrop{
+    position:fixed;inset:0;background:rgba(0,0,0,0.55);
+    z-index:998;opacity:0;visibility:hidden;
+    transition:opacity .25s ease, visibility .25s ease;
+  }
+  .mobile-menu-backdrop.open{opacity:1;visibility:visible;}
+  .mobile-menu{
+    position:fixed;top:0;right:0;bottom:0;
+    width:78%;max-width:320px;
+    background:var(--bg-alt);
+    border-left:1px solid var(--line);
+    z-index:999;
+    padding:80px 26px 26px;
+    transform:translateX(100%);
+    transition:transform .28s ease;
+    overflow-y:auto;
+  }
+  .mobile-menu.open{transform:translateX(0);}
+  .mobile-menu nav{display:flex;flex-direction:column;gap:2px;}
+  .mobile-menu nav a{
+    padding:15px 4px;border-bottom:1px solid var(--line);
+    color:var(--ink-soft);font-weight:600;font-size:16px;
+  }
+  .mobile-menu nav a:active{color:var(--gold);}
+  .mobile-menu-close{
+    position:absolute;top:18px;right:18px;
+    width:40px;height:40px;border-radius:50%;
+    background:var(--panel);border:1px solid var(--line);
+    color:var(--ink);font-size:17px;cursor:pointer;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{padding:56px 0 36px;}
+  .hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:40px;align-items:center;}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(212,175,55,0.12);
+    border:1px solid rgba(212,175,55,0.4);
+    color:var(--gold-bright);
+    padding:7px 14px;
+    border-radius:100px;
+    font-weight:700;
+    font-size:12.5px;
+    margin-bottom:20px;
+  }
+  .hero h1{font-size:clamp(32px,7vw,60px);margin-bottom:20px;color:var(--white);}
+  .hero h1 em{font-style:normal;color:var(--gold);}
+  .hero p{font-size:clamp(15px,2.2vw,18px);color:var(--ink-soft);max-width:480px;margin-bottom:28px;}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:32px;}
+  .hero-stats{display:flex;gap:28px;flex-wrap:wrap;}
+  .hero-stats div{border-left:3px solid var(--gold);padding-left:12px;}
+  .hero-stats strong{font-family:'Archivo Black';font-size:24px;display:block;color:var(--white);}
+  .hero-stats span{font-size:12.5px;color:var(--muted);}
+
+  .photo-collage{position:relative;height:380px;}
+  .ph{
+    position:absolute;border-radius:8px;overflow:hidden;
+    box-shadow:0 12px 28px rgba(0,0,0,0.4);
+    border:1px solid var(--line);
+  }
+  .ph img{width:100%;height:100%;object-fit:cover;display:block;}
+  .ph1{width:60%;height:60%;top:0;right:0;background:linear-gradient(135deg,#34363A,#1D1F22);}
+  .ph2{width:45%;height:42%;bottom:0;left:0;background:linear-gradient(135deg,var(--gold-deep),#6B5314);transform:rotate(-3deg);color:#1A1509;}
+  .ph3{width:38%;height:38%;bottom:6%;right:8%;background:linear-gradient(135deg,var(--gold-bright),var(--gold));color:#1A1509;transform:rotate(4deg);z-index:2;}
+
+  @media(max-width:860px){
+    .hero-grid{grid-template-columns:1fr;}
+    .photo-collage{height:280px;margin-top:16px;}
+  }
+  @media(max-width:400px){
+    .hero{padding:40px 0 28px;}
+    .hero-actions .btn{width:100%;}
+  }
+
+  /* ---------- MARQUEE ---------- */
+  .marquee{
+    background:var(--panel);color:var(--gold-bright);
+    padding:13px 0;overflow:hidden;white-space:nowrap;
+    font-family:'Archivo Black';font-size:15px;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  }
+  .marquee-track{display:inline-block;padding-left:100%;animation:scroll 26s linear infinite;}
+  .marquee-track span{margin:0 26px;color:var(--white);}
+  @keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-100%);}}
+  @media(prefers-reduced-motion: reduce){.marquee-track{animation:none;padding-left:0;}}
+
+  /* ---------- SECTION HEADS ---------- */
+  section{padding:clamp(52px,8vw,88px) 0;}
+  .section-head{max-width:640px;margin-bottom:44px;}
+  .section-head h2{font-size:clamp(26px,4.5vw,42px);margin-bottom:12px;color:var(--white);}
+  .section-head p{color:var(--ink-soft);font-size:16px;}
+
+  /* ---------- WHY US ---------- */
+  .why{background:var(--bg-alt);}
+  .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  .why-item{background:var(--bg-alt);padding:32px 24px;}
+  .why-item .num{font-family:'Archivo Black';font-size:13px;color:var(--gold);margin-bottom:14px;}
+  .why-item h3{font-size:18px;font-family:'Work Sans';font-weight:800;margin-bottom:10px;color:var(--white);}
+  .why-item p{color:var(--ink-soft);font-size:14px;}
+  @media(max-width:860px){.why-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:520px){.why-grid{grid-template-columns:1fr;}}
+
+  /* ---------- FACILITIES / GALLERY ---------- */
+  .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:190px;gap:12px;}
+  .gal{border-radius:8px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:14px;color:var(--white);font-weight:700;border:1px solid var(--line);}
+  .gal img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+  .gal:before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,transparent 40%, rgba(0,0,0,0.6));}
+  .gal span{position:relative;z-index:2;font-size:14px;}
+  .gal.g1{grid-column:span 2;grid-row:span 2;background:#2C2E32;}
+  .gal.g2{background:linear-gradient(135deg,var(--gold-deep),#6B5314);}
+  .gal.g3{background:#34363A;}
+  .gal.g4{background:linear-gradient(135deg,#3A3D42,#2C2E32);}
+  .gal.g5{grid-column:span 2;background:#1D1F22;}
+  @media(max-width:760px){
+    .gallery-grid{grid-template-columns:repeat(2,1fr);}
+    .gal.g1{grid-column:span 2;}
+    .gal.g5{grid-column:span 2;}
+  }
+  .gallery-note{margin-top:16px;font-size:13.5px;color:var(--muted);}
+
+  /* ---------- CLASSES ---------- */
+  .classes-list{border-top:1px solid var(--line);}
+  .class-row{
+    display:grid;grid-template-columns:110px 1fr auto;gap:20px;align-items:center;
+    padding:20px 0;border-bottom:1px solid var(--line);
+  }
+  .class-row .time{font-family:'Archivo Black';font-size:14px;color:var(--gold);}
+  .class-row h4{font-size:18px;font-weight:800;color:var(--white);}
+  .class-row p{color:var(--muted);font-size:13.5px;margin-top:2px;}
+  .tag{background:rgba(212,175,55,0.14);border:1px solid rgba(212,175,55,0.4);color:var(--gold-bright);padding:6px 14px;border-radius:100px;font-size:12.5px;font-weight:700;white-space:nowrap;}
+  @media(max-width:640px){
+    .class-row{grid-template-columns:1fr;gap:6px;}
+    .tag{width:fit-content;}
+  }
+
+  /* ---------- TRAINERS ---------- */
+  .trainers{background:var(--bg-alt);}
+  .trainer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  .trainer-card{background:var(--panel);border-radius:8px;overflow:hidden;border:1px solid var(--line);}
+  .trainer-photo{aspect-ratio:4/5;overflow:hidden;background:var(--bg-alt);}
+  .trainer-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  .trainer-card .info{padding:16px;}
+  .trainer-card h4{font-size:16.5px;font-weight:800;margin-bottom:2px;color:var(--white);}
+  .trainer-card .role{color:var(--gold);font-size:12.5px;font-weight:700;margin-bottom:8px;}
+  .trainer-card p{font-size:13px;color:var(--muted);}
+  @media(max-width:860px){.trainer-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:520px){.trainer-grid{grid-template-columns:1fr;}}
+
+  /* ---------- PRICING ---------- */
+  .pricing-toggle{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:100px;padding:4px;margin-bottom:40px;}
+  .pricing-toggle button{
+    border:none;background:transparent;padding:10px 20px;border-radius:100px;
+    font-weight:700;font-size:13.5px;cursor:pointer;color:var(--ink-soft);
+  }
+  .pricing-toggle button.active{background:var(--gold);color:#1A1509;}
+  .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch;}
+  .plan{
+    background:var(--panel);
+    border:1px solid var(--line);
+    padding:32px 26px;
+    display:flex;flex-direction:column;
+    position:relative;
+  }
+  .plan:nth-child(1){border-radius:18px 4px 4px 4px;}
+  .plan:nth-child(3){border-radius:4px 18px 4px 4px;}
+  .plan.featured{
+    background:linear-gradient(160deg,#2C2E32,#1D1F22);
+    border:1px solid var(--gold-deep);
+    border-radius:4px 4px 18px 4px;
+    transform:translateY(-12px);
+    box-shadow:0 20px 40px rgba(0,0,0,0.5);
+  }
+  .plan .badge-pop{position:absolute;top:-14px;right:22px;background:var(--gold);color:#1A1509;padding:5px 14px;border-radius:100px;font-size:11.5px;font-weight:800;}
+  .plan h3{font-size:14px;font-weight:800;font-family:'Work Sans';text-transform:uppercase;letter-spacing:0.03em;color:var(--gold);margin-bottom:12px;}
+  .plan .price{font-family:'Archivo Black';font-size:40px;margin-bottom:2px;color:var(--white);}
+  .plan .price sup{font-size:17px;font-family:'Work Sans';font-weight:700;}
+  .plan .per{font-size:12.5px;color:var(--muted);margin-bottom:22px;}
+  .plan ul{list-style:none;margin-bottom:26px;flex-grow:1;}
+  .plan li{padding:9px 0;border-top:1px solid var(--line);font-size:14px;display:flex;gap:10px;color:var(--ink-soft);}
+  .plan li:before{content:'✓';color:var(--gold);font-weight:800;}
+  .plan .btn{width:100%;}
+  @media(max-width:900px){.pricing-grid{grid-template-columns:1fr;}.plan.featured{transform:none;}}
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testi-strip{background:var(--panel);}
+  .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .testi{background:var(--bg-alt);padding:26px;border-radius:8px;border:1px solid var(--line);}
+  .testi p{font-size:15px;margin-bottom:18px;color:var(--ink-soft);}
+  .testi .who{display:flex;align-items:center;gap:12px;}
+  .testi .avatar{width:38px;height:38px;border-radius:50%;background:var(--gold);color:#1A1509;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;}
+  .testi .who strong{display:block;font-size:13.5px;color:var(--white);}
+  .testi .who span{font-size:12px;color:var(--muted);}
+  @media(max-width:860px){.testi-grid{grid-template-columns:1fr;}}
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;}
+  .contact-info h2{margin-bottom:18px;}
+  .contact-info p{color:var(--ink-soft);margin-bottom:26px;}
+  .contact-item{display:flex;gap:14px;margin-bottom:18px;}
+  .contact-item .ic{width:36px;height:36px;border-radius:50%;background:rgba(212,175,55,0.14);border:1px solid rgba(212,175,55,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .contact-item strong{display:block;font-size:13.5px;color:var(--white);}
+  .contact-item span{font-size:13.5px;color:var(--muted);}
+  .map-box{
+    border-radius:8px;border:1px solid var(--line);background:var(--panel);
+    margin-top:8px;padding:22px;display:flex;flex-direction:column;
+    align-items:flex-start;gap:10px;
+  }
+  .map-box .pin{font-size:22px;}
+  .map-box .addr{font-size:13.5px;color:var(--ink-soft);}
+  .map-box a{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:13px;font-weight:700;color:var(--gold);
+    border:1px solid var(--gold);border-radius:100px;padding:8px 16px;
+  }
+  .map-box a:hover{background:var(--gold);color:#1A1509;}
+
+  form.contact-form{display:flex;flex-direction:column;gap:14px;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  input,textarea,select{
+    width:100%;padding:13px 15px;border-radius:6px;border:1px solid var(--line);
+    background:var(--bg-alt);font-family:'Work Sans';font-size:14.5px;color:var(--ink);
+  }
+  input::placeholder,textarea::placeholder{color:var(--muted);}
+  input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px;}
+  textarea{resize:vertical;min-height:100px;}
+  @media(max-width:760px){.contact-grid{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--bg-alt);color:var(--ink-soft);padding:48px 0 24px;border-top:1px solid var(--line);}
+  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:36px;}
+  .foot-logo{font-family:'Archivo Black';color:var(--white);font-size:19px;margin-bottom:12px;}
+  .foot-logo span{color:var(--gold);}
+  footer p{font-size:13.5px;color:var(--muted);max-width:280px;}
+  footer h5{color:var(--white);font-size:12.5px;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:14px;}
+  footer ul{list-style:none;}
+  footer li{margin-bottom:9px;font-size:14px;}
+  footer li a:hover{color:var(--gold);}
+  .foot-bottom{border-top:1px solid var(--line);padding-top:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12.5px;color:var(--muted);}
+  @media(max-width:700px){.foot-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:460px){.foot-grid{grid-template-columns:1fr;}}
+
+  /* ---------- MODAL ---------- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,0.65);
+    display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;
+  }
+  .overlay.open{display:flex;}
+  .modal{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;max-width:440px;width:100%;
+    padding:32px;position:relative;max-height:90vh;overflow-y:auto;
+  }
+  .modal-close{position:absolute;top:14px;right:14px;background:var(--bg-alt);border:1px solid var(--line);color:var(--ink);width:34px;height:34px;border-radius:50%;font-size:16px;cursor:pointer;}
+  .modal h3{font-family:'Archivo Black';font-size:22px;margin-bottom:6px;color:var(--white);}
+  .modal .plan-chosen{font-size:13.5px;color:var(--gold);font-weight:700;margin-bottom:20px;}
+  .modal form{display:flex;flex-direction:column;gap:12px;}
+  .error-msg{color:#E0654C;font-size:13px;display:none;}
+  .success{display:none;text-align:center;padding:16px 0;}
+  .success.show{display:block;}
+  .success .tick{width:56px;height:56px;border-radius:50%;background:var(--gold);color:#1A1509;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 16px;}
+  .success h4{font-family:'Archivo Black';font-size:19px;margin-bottom:8px;color:var(--white);}
+  .success p{color:var(--ink-soft);font-size:14px;margin-bottom:20px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">New Age<span>Fitness</span></div>
+    <nav class="nav-links" id="navLinks">
+      <a href="#why">Why Us</a>
+      <a href="#facilities">Facilities</a>
+      <a href="#classes">Classes</a>
+      <a href="#trainers">Trainers</a>
+      <a href="#pricing">Membership</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#pricing" class="btn btn-outline" style="padding:10px 18px;">View Plans</a>
+      <button class="burger" id="burgerBtn" aria-label="Menu" aria-expanded="false">☰</button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu-backdrop" id="mobileBackdrop"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">✕</button>
+  <nav>
+    <a href="#why">Why Us</a>
+    <a href="#facilities">Facilities</a>
+    <a href="#classes">Classes</a>
+    <a href="#trainers">Trainers</a>
+    <a href="#pricing">Membership</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</div>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="badge">★ 500+ members already training with us</div>
+      <h1>Fitness that fits <em>your</em> life.</h1>
+      <p>New Age Fitness is a community gym built on real support, modern equipment, and a team that pushes you forward. Whether you're just starting out or chasing a personal best, there's a place for you here.</p>
+      <div class="hero-actions">
+        <a href="#pricing" class="btn btn-gold">Become a Member</a>
+        <a href="#facilities" class="btn btn-outline">See the Gym</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>500+</strong><span>Active Members</span></div>
+        <div><strong>12</strong><span>Weekly Classes</span></div>
+        <div><strong>₹799</strong><span>Starting From</span></div>
+      </div>
+    </div>
+    <div class="photo-collage">
+      <div class="ph ph1"><img src="images/gym-floor.jpg" alt="Gym floor" style="object-position:center 62%;"></div>
+      <div class="ph ph2"><img src="images/group-class.jpg" alt="Group class" style="object-position:center 42%;"></div>
+      <div class="ph ph3"><img src="images/member-photo.jpg" alt="Gym member" style="object-position:center 22%;"></div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>NO JOINING FEE</span> • FREE TRIAL DAY • <span>OPEN 5AM – 11PM</span> • FRIENDLY TRAINERS • <span>7 DAYS A WEEK</span> • NO JOINING FEE • FREE TRIAL DAY • <span>OPEN 5AM – 11PM</span> •
+  </div>
+</div>
+
+<section class="why" id="why">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Why train with us</h2>
+      <p>No big-box gym attitude — just real results and a team that actually knows your name.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="num">Affordable</div>
+        <h3>Honest pricing</h3>
+        <p>No hidden charges, no surprise fees — the price you see is the price you pay.</p>
+      </div>
+      <div class="why-item">
+        <div class="num">Expert Guidance</div>
+        <h3>Certified trainers</h3>
+        <p>Every member gets a free fitness assessment and a personalized plan.</p>
+      </div>
+      <div class="why-item">
+        <div class="num">Modern Setup</div>
+        <h3>Latest equipment</h3>
+        <p>From cardio machines to free weights, everything is clean and well maintained.</p>
+      </div>
+      <div class="why-item">
+        <div class="num">Flexible</div>
+        <h3>Train on your schedule</h3>
+        <p>Open 5 AM to 11 PM every day — come whenever it works for you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="facilities">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Our facilities</h2>
+      <p>A quick look inside the gym. (Swap these placeholders with your real gym photos.)</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gal g1"><img src="images/weight-training.jpg" alt="Weight training zone" style="object-position:center 60%;"><span>Weight Training Zone</span></div>
+      <div class="gal g2"><img src="images/cardio-area.jpg" alt="Cardio area" style="object-position:center 68%;"><span>Cardio Area</span></div>
+      <div class="gal g3"><img src="images/group-classes.jpg" alt="Group classes" style="object-position:center 48%;"><span>Group Classes</span></div>
+      <div class="gal g4"><img src="images/lockers.jpg" alt="Locker rooms" style="object-position:center 42%;"><span>Locker Rooms</span></div>
+      <div class="gal g5"><img src="images/functional-zone.jpg" alt="Functional training zone" style="object-position:center 55%;"><span>Free Weights & Functional Zone</span></div>
+    </div>
+    <p class="gallery-note">Tip: replace these placeholders with real photos of your gym — it will instantly look more professional.</p>
+  </div>
+</section>
+
+<section id="classes">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Weekly class schedule</h2>
+      <p>Want to train with some group energy? Try one of these.</p>
+    </div>
+    <div class="classes-list">
+      <div class="class-row">
+        <div class="time">6:00 AM</div>
+        <div><h4>Morning Zumba</h4><p>High-energy dance cardio, easy for everyone</p></div>
+        <div class="tag">Beginner Friendly</div>
+      </div>
+      <div class="class-row">
+        <div class="time">7:30 AM</div>
+        <div><h4>Strength Circuit</h4><p>Full-body weight training with a trainer</p></div>
+        <div class="tag">Intermediate</div>
+      </div>
+      <div class="class-row">
+        <div class="time">5:30 PM</div>
+        <div><h4>Yoga & Mobility</h4><p>Stretching and breathing for better recovery</p></div>
+        <div class="tag">All Levels</div>
+      </div>
+      <div class="class-row">
+        <div class="time">7:00 PM</div>
+        <div><h4>HIIT Blast</h4><p>Fast-paced fat-burning workout, 45 minutes</p></div>
+        <div class="tag">Advanced</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="trainers" id="trainers">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Meet the trainers</h2>
+      <p>Certified, friendly, and always invested in your goals.</p>
+    </div>
+    <div class="trainer-grid">
+      <div class="trainer-card">
+        <div class="trainer-photo"><img src="images/trainer-1.jpg" alt="Rohit Sharma" style="object-position:center 14%;"></div>
+        <div class="info"><h4>Rohit Sharma</h4><div class="role">Head Trainer — Strength</div><p>8 years of experience, powerlifting specialist.</p></div>
+      </div>
+      <div class="trainer-card">
+        <div class="trainer-photo"><img src="images/trainer-2.jpg" alt="Anjali Verma" style="object-position:center 22%;"></div>
+        <div class="info"><h4>Anjali Verma</h4><div class="role">Yoga & Flexibility</div><p>Certified yoga instructor and mobility expert.</p></div>
+      </div>
+      <div class="trainer-card">
+        <div class="trainer-photo"><img src="images/trainer-3.jpg" alt="Farhan Khan" style="object-position:center 16%;"></div>
+        <div class="info"><h4>Farhan Khan</h4><div class="role">HIIT & Cardio</div><p>Fat-loss and endurance training specialist.</p></div>
+      </div>
+      <div class="trainer-card">
+        <div class="trainer-photo"><img src="images/trainer-4.jpg" alt="Priya Nair" style="object-position:center 12%;"></div>
+        <div class="info"><h4>Priya Nair</h4><div class="role">Nutrition Coach</div><p>Diet planning and healthy lifestyle guidance.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Membership plans</h2>
+      <p>No hidden fees. Cancel anytime. Choose your plan and join online in minutes.</p>
+    </div>
+    <div class="pricing-toggle">
+      <button class="active" data-cycle="monthly">Monthly</button>
+      <button data-cycle="yearly">Yearly <span style="opacity:.7;font-weight:600;">(2 months free)</span></button>
+    </div>
+    <div class="pricing-grid">
+      <div class="plan" data-plan="Basic">
+        <h3>Basic</h3>
+        <div class="price"><sup>₹</sup><span class="amt">799</span></div>
+        <div class="per">per month</div>
+        <ul>
+          <li>Gym floor access</li>
+          <li>Cardio + weight zone</li>
+          <li>Locker facility</li>
+          <li>Free fitness assessment</li>
+        </ul>
+        <button class="btn btn-outline join-btn" data-plan="Basic">Join Now</button>
+      </div>
+      <div class="plan featured" data-plan="Standard">
+        <div class="badge-pop">Most Popular</div>
+        <h3>Standard</h3>
+        <div class="price"><sup>₹</sup><span class="amt">1299</span></div>
+        <div class="per">per month</div>
+        <ul>
+          <li>Everything in Basic</li>
+          <li>Unlimited group classes</li>
+          <li>Monthly progress check-in</li>
+          <li>1 guest pass / month</li>
+        </ul>
+        <button class="btn btn-gold join-btn" data-plan="Standard">Join Now</button>
+      </div>
+      <div class="plan" data-plan="Premium">
+        <h3>Premium</h3>
+        <div class="price"><sup>₹</sup><span class="amt">1999</span></div>
+        <div class="per">per month</div>
+        <ul>
+          <li>Everything in Standard</li>
+          <li>2 personal training sessions</li>
+          <li>Nutrition consultation</li>
+          <li>Priority class booking</li>
+        </ul>
+        <button class="btn btn-outline join-btn" data-plan="Premium">Join Now</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testi-strip">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>What our members say</h2>
+      <p style="color:var(--muted);">Real people, real results.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="testi">
+        <p>"I used to be intimidated by gyms — nobody judges you here. Down 18 lbs in 4 months."</p>
+        <div class="who"><div class="avatar">SK</div><div><strong>Sam Keller</strong><span>Member since 2024</span></div></div>
+      </div>
+      <div class="testi">
+        <p>"The trainers are genuinely supportive and the pricing is honestly affordable. Highly recommend."</p>
+        <div class="who"><div class="avatar">NM</div><div><strong>Nina Moore</strong><span>Member since 2023</span></div></div>
+      </div>
+      <div class="testi">
+        <p>"The yoga classes fixed my chronic back pain. I show up almost every day now."</p>
+        <div class="who"><div class="avatar">RP</div><div><strong>Rita Patel</strong><span>Member since 2024</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap contact-grid">
+    <div class="contact-info">
+      <h2>Get in touch</h2>
+      <p>Have a question or want a free trial day? Fill out the form and we'll reach out shortly.</p>
+      <div class="contact-item"><div class="ic">📍</div><div><strong>Location</strong><span>Dwarka, New Delhi, 110073</span></div></div>
+      <div class="contact-item"><div class="ic">📞</div><div><strong>Phone</strong><span>+91 85958 60616, +91 93115 43057</span></div></div>
+      <div class="contact-item"><div class="ic">✉️</div><div><strong>Email</strong><span>gauravtanwar710@gmail.com</span></div></div>
+      <div class="contact-item"><div class="ic">🕐</div><div><strong>Hours</strong><span>Mon–Sun · 5:00 AM – 11:00 PM</span></div></div>
+      <div class="map-box">
+        <div class="pin">📍</div>
+        <div class="addr">New Age Fitness<br>Dwarka, New Delhi, 110073</div>
+        <a href="https://www.google.com/maps/search/?api=1&query=New+Age+Fitness+Dwarka+New+Delhi+110073" target="_blank" rel="noopener">Open in Google Maps ↗</a>
+      </div>
+    </div>
+    <form class="contact-form" id="contactForm">
+      <div class="form-row">
+        <input type="text" id="cName" placeholder="Name" required>
+        <input type="tel" id="cPhone" placeholder="Phone number" required>
+      </div>
+      <input type="email" id="cEmail" placeholder="Email" required>
+      <textarea id="cMessage" placeholder="Message (optional)"></textarea>
+      <button type="submit" class="btn btn-gold">Send Message</button>
+      <span class="error-msg" id="contactError">Something went wrong. Please try again.</span>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo">New Age<span>Fitness</span></div>
+        <p>A community gym built on affordable pricing, real support, and results-driven training.</p>
+      </div>
+      <div>
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="#why">Why Us</a></li>
+          <li><a href="#classes">Classes</a></li>
+          <li><a href="#pricing">Membership</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Support</h5>
+        <ul>
+          <li><a href="#contact">Contact Us</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Cancellation Policy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Follow</h5>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 New Age Fitness. All rights reserved.</span>
+      <span>Made with 💪 for the community.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== JOIN / MEMBERSHIP MODAL ===== -->
+<div class="overlay" id="joinOverlay">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+
+    <div id="formView">
+      <h3>Join Membership</h3>
+      <div class="plan-chosen" id="planChosenLabel">Selected Plan: Standard</div>
+      <form id="joinForm">
+        <input type="text" id="fName" placeholder="Full name" required>
+        <input type="tel" id="fPhone" placeholder="Phone number" required>
+        <input type="email" id="fEmail" placeholder="Email" required>
+        <select id="fCycle">
+          <option value="monthly">Monthly Billing</option>
+          <option value="yearly">Yearly Billing (2 months free)</option>
+        </select>
+        <button type="submit" class="btn btn-gold" style="margin-top:6px;">Continue to Payment</button>
+        <span class="error-msg" id="joinError">Something went wrong. Please try again.</span>
+      </form>
+    </div>
+
+    <div class="success" id="successView">
+      <div class="tick">✓</div>
+      <h4>Almost there!</h4>
+      <p id="successMsg">Your <strong>Standard</strong> membership request has been received. We'll contact you shortly to complete payment.</p>
+      <button class="btn btn-dark" id="successClose" style="width:100%;">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // mobile nav toggle (slide-in panel, independent of header)
+  const burgerBtn = document.getElementById('burgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileBackdrop = document.getElementById('mobileBackdrop');
+  const mobileMenuClose = document.getElementById('mobileMenuClose');
+
+  function openMenu(){
+    mobileMenu.classList.add('open');
+    mobileBackdrop.classList.add('open');
+    burgerBtn.setAttribute('aria-expanded','true');
+  }
+  function closeMenu(){
+    mobileMenu.classList.remove('open');
+    mobileBackdrop.classList.remove('open');
+    burgerBtn.setAttribute('aria-expanded','false');
+  }
+  burgerBtn.addEventListener('click', () => {
+    mobileMenu.classList.contains('open') ? closeMenu() : openMenu();
+  });
+  mobileMenuClose.addEventListener('click', closeMenu);
+  mobileBackdrop.addEventListener('click', closeMenu);
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+  // pricing cycle toggle — yearly = 10 months' price for 12 months (2 months free)
+  const monthlyPrices = { Basic: 799, Standard: 1299, Premium: 1999 };
+  function getYearlyTotal(monthly) { return monthly * 10; }
+  document.querySelectorAll('.pricing-toggle button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.pricing-toggle button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cycle = btn.dataset.cycle;
+      document.querySelectorAll('.plan').forEach(plan => {
+        const name = plan.dataset.plan;
+        const monthly = monthlyPrices[name];
+        if (cycle === 'monthly') {
+          plan.querySelector('.amt').textContent = monthly;
+          plan.querySelector('.per').textContent = 'per month';
+        } else {
+          const yearly = getYearlyTotal(monthly);
+          const perMonth = Math.round(yearly / 12);
+          plan.querySelector('.amt').textContent = yearly;
+          plan.querySelector('.per').textContent = 'per year (≈ ₹' + perMonth + '/mo)';
+        }
+      });
+    });
+  });
+
+  // join modal
+  const overlay = document.getElementById('joinOverlay');
+  const formView = document.getElementById('formView');
+  const successView = document.getElementById('successView');
+  const planLabel = document.getElementById('planChosenLabel');
+  const successMsg = document.getElementById('successMsg');
+  const joinError = document.getElementById('joinError');
+  let chosenPlan = 'Standard';
+
+  document.querySelectorAll('.join-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      chosenPlan = btn.dataset.plan;
+      planLabel.textContent = 'Selected Plan: ' + chosenPlan;
+      formView.style.display = 'block';
+      successView.classList.remove('show');
+      joinError.style.display = 'none';
+      overlay.classList.add('open');
+    });
+  });
+
+  function closeModal(){ overlay.classList.remove('open'); }
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('successClose').addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e) => { if(e.target === overlay) closeModal(); });
+
+  document.getElementById('joinForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    joinError.style.display = 'none';
+    const payload = {
+      name: document.getElementById('fName').value,
+      phone: document.getElementById('fPhone').value,
+      email: document.getElementById('fEmail').value,
+      plan: chosenPlan,
+      cycle: document.getElementById('fCycle').value
+    };
+    try {
+      const res = await fetch('/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error('Request failed');
+      successMsg.innerHTML = 'Your <strong>' + chosenPlan + '</strong> membership request has been received. We\'ll contact you shortly to complete payment.';
+      formView.style.display = 'none';
+      successView.classList.add('show');
+      document.getElementById('joinForm').reset();
+    } catch (err) {
+      joinError.style.display = 'block';
+    }
+  });
+
+  // contact form
+  const contactForm = document.getElementById('contactForm');
+  const contactError = document.getElementById('contactError');
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    contactError.style.display = 'none';
+    const payload = {
+      name: document.getElementById('cName').value,
+      phone: document.getElementById('cPhone').value,
+      email: document.getElementById('cEmail').value,
+      message: document.getElementById('cMessage').value
+    };
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error('Request failed');
+      alert('Thank you! We will get back to you shortly.');
+      contactForm.reset();
+    } catch (err) {
+      contactError.style.display = 'block';
+    }
+  });
+</script>
+
+</body>
+</html>

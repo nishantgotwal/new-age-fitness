@@ -1,0 +1,14 @@
+{
+  "name": "new-age-fitness-website",
+  "version": "1.0.0",
+  "description": "New Age Fitness gym website with backend for membership sign-ups and contact messages",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.117.2",
+    "dotenv": "^18.0.4",
+    "express": "^4.19.2"
+  }
+}
